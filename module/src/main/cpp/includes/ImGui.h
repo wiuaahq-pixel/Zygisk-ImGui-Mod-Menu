@@ -13,9 +13,9 @@
 // FIXED: Changed ImGui to imgui and Includes to includes
 #include "imgui/imgui.h"
 #include "includes/Roboto-Regular.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
-#include "imgui/backends/imgui_impl_android.h"
-#include "imgui/backends/android_native_app_glue.h"
+#include "imgui/Backends/imgui_impl_opengl3.h"
+#include "imgui/Backends/imgui_impl_android.h"
+#include "imgui/Backends/android_native_app_glue.h"
 
 #include "Utils.h"
 #include "Dobby/dobby.h"
