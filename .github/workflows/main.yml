@@ -9,26 +9,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: set up JDKs
+      - name: Setup Java 17 (For SDK)
         uses: actions/setup-java@v4
         with:
-          java-version: |
-            17
-            11
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          # Use 17 for the SDK tools
-          log-accepted-android-sdk-licenses: true
 
-      - name: Build with Gradle (Forced JDK 11)
-        env:
-          JAVA_HOME: /usr/lib/jvm/temurin-11-jdk-amd64
+      - name: Setup Java 11 (For Gradle)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
         run: |
           chmod +x ./gradlew
           ./gradlew :module:assembleRelease
+        env:
+          # This forces Gradle to use the Java 11 we just installed
+          JAVA_HOME: ${{ env.JAVA_HOME_11_X64 }}
 
       - name: Upload result
         uses: actions/upload-artifact@v4
