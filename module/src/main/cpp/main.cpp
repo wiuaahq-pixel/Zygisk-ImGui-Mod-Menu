@@ -9,7 +9,7 @@
 
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
-using zygisk::ServerSpecializeArgs; // Added
+using zygisk::ServerSpecializeArgs;
 
 // --- 1. GLOBAL VARIABLES ---
 static int enable_hack;
@@ -57,7 +57,8 @@ void DrawMenu() {
 void *hack_thread(void *) {
     uintptr_t base = 0;
     do {
-        base = get_base("libil2cpp.so");
+        // We use "get_module_base" instead of "get_base" to match the template
+        base = get_module_base("libil2cpp.so");
         if (!base) sleep(1);
     } while (!base);
 
@@ -68,14 +69,13 @@ void *hack_thread(void *) {
     return NULL;
 }
 
-// --- 6. ZYGISK MODULE CLASS (Complete Version) ---
+// --- 6. ZYGISK MODULE CLASS ---
 class MyModule : public zygisk::ModuleBase {
 public:
     void onLoad(Api *api, JNIEnv *env) override {
         env_ = env;
     }
 
-    // Required for Android 12+ / Newer Zygisk
     void preServerSpecialize(ServerSpecializeArgs *args) override {}
     void postServerSpecialize(const ServerSpecializeArgs *args) override {}
 
