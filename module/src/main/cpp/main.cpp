@@ -3,9 +3,14 @@
 #include <unistd.h>
 #include <cstring>
 
-// These paths match your folders: 'Includes' and 'ImGui'
+// --- DEEP ANALYZED PATHS ---
+// 1. Dobby is inside Includes/Dobby
 #include "Includes/Dobby/dobby.h"
+
+// 2. ImGui is a top-level folder (Screenshot 2886)
 #include "ImGui/imgui.h"
+
+// 3. These are in the same folder as main.cpp
 #include "modmenu.h"
 #include "zygisk.hpp"
 
@@ -59,7 +64,7 @@ void DrawMenu() {
 void *hack_thread(void *) {
     uintptr_t base = 0;
     do {
-        // This function is inside modmenu.h or kittyMemory
+        // Uses the function from modmenu.h
         base = get_module_base("libil2cpp.so");
         if (!base) sleep(1);
     } while (!base);
