@@ -8,7 +8,7 @@
 #include "imgui/imgui.h"
 #include "kittymemory/KittyMemory.h" // Matches renamed folder
 #include "modmenu.h"
-#include "../zygisk.hpp"
+#include "zygisk.hpp"
 
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
