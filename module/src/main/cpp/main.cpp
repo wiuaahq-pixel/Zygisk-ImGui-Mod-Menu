@@ -38,17 +38,17 @@ float new_Skill(void *instance) {
     return skill_toggle ? 0.0f : 10.0f;
 }
 
-// --- 4. THE UI MENU (Drawing the buttons) ---
+// --- 4. THE UI MENU ---
 void DrawMenu() {
-    if (ImGui::Begin("Mech Arena Mod")) {
-        ImGui::Checkbox("Fast Movement", &speed_toggle);
-        if (speed_toggle) {
-            ImGui::SliderFloat("Speed x", &speed_mult, 1.0f, 20.0f);
-        }
-        ImGui::Separator();
-        ImGui::Checkbox("Instant Reload", &reload_toggle);
-        ImGui::Checkbox("No Skill Cooldown", &skill_toggle);
+    // Only draw if the menu is supposed to be visible
+    ImGui::Begin("Mech Arena Mod By Imran");
+    ImGui::Checkbox("Fast Movement", &speed_toggle);
+    if (speed_toggle) {
+        ImGui::SliderFloat("Speed x", &speed_mult, 1.0f, 20.0f);
     }
+    ImGui::Separator();
+    ImGui::Checkbox("Instant Reload", &reload_toggle);
+    ImGui::Checkbox("No Skill Cooldown", &skill_toggle);
     ImGui::End();
 }
 
@@ -63,6 +63,10 @@ void *hack_thread(void *) {
     DobbyHook((void *)(base + OFF_SPEED), (void *)new_Speed, (void **)&old_Speed);
     DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, NULL);
     DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, NULL);
+    
+    // START IMGUI (This is what was missing)
+    setupImGui(DrawMenu); 
+    
     return NULL;
 }
 
