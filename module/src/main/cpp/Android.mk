@@ -28,8 +28,8 @@ LOCAL_SRC_FILES := main.cpp \
 				   kittymemory/MemoryPatch.cpp \
 				   kittymemory/MemoryBackup.cpp \
 				   kittymemory/KittyUtils.cpp \
-				   imgui/backends/imgui_impl_opengl3.cpp \
-				   imgui/backends/imgui_impl_android.cpp \
+				   imgui/Backends/imgui_impl_opengl3.cpp \
+				   imgui/Backends/imgui_impl_android.cpp \
 				   imgui/imgui.cpp \
 				   imgui/imgui_demo.cpp \
 				   imgui/imgui_draw.cpp \
