@@ -7,23 +7,31 @@ apply plugin: 'com.android.library'
 apply from: file(rootProject.file('module.gradle'))
 
 android {
-    compileSdkVersion rootProject.ext.targetSdkVersion
+    // Force SDK 30 to fix the "34x" NumberFormatException
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3" 
+
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 30 // Hardcoded to 30
 
         ndk {
             abiFilters "arm64-v8a"
         }
     }
+    
     buildFeatures {
         prefab true
     }
+
     externalNativeBuild {
         ndkBuild {
+            // Ensure this points to your renamed folder 'includes' if necessary
             path file('src/main/cpp/Android.mk')
         }
     }
+
+    // Keep your NDK version as is, it's compatible with SDK 30
     ndkVersion = '22.0.7026061'
 }
 
