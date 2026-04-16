@@ -3,9 +3,10 @@
 #include <unistd.h>
 #include <cstring>
 
-// Corrected relative paths for Linux case-sensitivity
+// These paths match your lowercase folders exactly
 #include "includes/Dobby/dobby.h"
 #include "imgui/imgui.h"
+#include "kittymemory/KittyMemory.h" // Matches renamed folder
 #include "modmenu.h"
 #include "zygisk.hpp"
 
@@ -54,7 +55,8 @@ void DrawMenu() {
 void *hack_thread(void *) {
     uintptr_t base = 0;
     do {
-        base = get_module_base("libil2cpp.so");
+        // This function is inside kittymemory
+        base = KittyMemory::get_module_base("libil2cpp.so");
         if (!base) sleep(1);
     } while (!base);
 
