@@ -17,12 +17,14 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        env:
+          SKIP_JDK_VERSION_CHECK: true # This fixes the error in screenshot 2860
 
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
           ./gradlew :module:assembleRelease
-
+          
       - name: Upload result
         uses: actions/upload-artifact@v4
         with:
