@@ -6,11 +6,11 @@
 #include <jni.h>
 #include <sys/system_properties.h>
 
-#include "KittyMemory/MemoryPatch.h"
-#include "Includes/ESP.h"
-#include "Includes/Dobby/dobby.h"
-#include "Includes/Utils.h"
-#include "Includes/ImGui.h"
+#include "kittymemory/MemoryPatch.h"
+#include "includes/ESP.h"
+#include "includes/Dobby/dobby.h"
+#include "includes/Utils.h"
+#include "includes/imgui.h"
 
 static int enable_hack;
 static char *game_data_dir = nullptr;
