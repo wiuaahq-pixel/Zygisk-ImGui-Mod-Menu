@@ -22,18 +22,19 @@ LOCAL_ARM_MODE := arm
 
 LOCAL_STATIC_LIBRARIES := libdobby
 
+# --- FIXED LOWERCASE PATHS ---
 LOCAL_SRC_FILES := main.cpp \
-				   KittyMemory/KittyMemory.cpp \
-				   KittyMemory/MemoryPatch.cpp \
-				   KittyMemory/MemoryBackup.cpp \
-				   KittyMemory/KittyUtils.cpp \
-				   ImGui/backends/imgui_impl_opengl3.cpp \
-				   ImGui/backends/imgui_impl_android.cpp \
-				   ImGui/imgui.cpp \
-				   ImGui/imgui_demo.cpp \
-				   ImGui/imgui_draw.cpp \
-				   ImGui/imgui_tables.cpp \
-				   ImGui/imgui_widgets.cpp \
+				   kittymemory/KittyMemory.cpp \
+				   kittymemory/MemoryPatch.cpp \
+				   kittymemory/MemoryBackup.cpp \
+				   kittymemory/KittyUtils.cpp \
+				   imgui/backends/imgui_impl_opengl3.cpp \
+				   imgui/backends/imgui_impl_android.cpp \
+				   imgui/imgui.cpp \
+				   imgui/imgui_demo.cpp \
+				   imgui/imgui_draw.cpp \
+				   imgui/imgui_tables.cpp \
+				   imgui/imgui_widgets.cpp \
 
 LOCAL_LDLIBS := -llog -landroid -lEGL -lGLESv3 -lGLESv2
 
