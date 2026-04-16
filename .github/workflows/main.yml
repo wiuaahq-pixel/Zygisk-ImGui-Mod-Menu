@@ -9,21 +9,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: set up JDK 17
+      - name: set up JDKs
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: |
+            17
+            11
           distribution: 'temurin'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # Use 17 for the SDK tools
+          log-accepted-android-sdk-licenses: true
 
-      - name: Switch to JDK 11 for Compilation
-        run: |
-          sudo update-java-alternatives -s /usr/lib/jvm/temurin-11-jdk-amd64 || sudo update-java-alternatives -s /usr/lib/jvm/java-11-openjdk-amd64
-          java -version
-
-      - name: Build with Gradle
+      - name: Build with Gradle (Forced JDK 11)
+        env:
+          JAVA_HOME: /usr/lib/jvm/temurin-11-jdk-amd64
         run: |
           chmod +x ./gradlew
           ./gradlew :module:assembleRelease
