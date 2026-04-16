@@ -10,7 +10,7 @@
 #include "includes/ESP.h"
 #include "includes/Dobby/dobby.h"
 #include "includes/Utils.h"
-#include "includes/imgui.h"
+#include "includes/ImGUI.h"
 
 static int enable_hack;
 static char *game_data_dir = nullptr;
