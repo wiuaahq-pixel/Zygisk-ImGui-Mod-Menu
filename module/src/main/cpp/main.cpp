@@ -9,8 +9,10 @@
 
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
+using zygisk::ServerSpecializeArgs; // Added
 
-// --- 1. UI SWITCHES ---
+// --- 1. GLOBAL VARIABLES ---
+static int enable_hack;
 bool speed_toggle = false;
 bool reload_toggle = false;
 bool skill_toggle = false;
@@ -21,7 +23,7 @@ float speed_mult = 5.0f;
 #define OFF_RELOAD 0x4ec4190
 #define OFF_SKILL 0x2d498a8
 
-// --- 3. INTEGRATED HOOK LOGIC ---
+// --- 3. HOOK LOGIC ---
 float (*old_Speed)(void *instance);
 float new_Speed(void *instance) {
     if (instance != NULL && speed_toggle) {
@@ -40,7 +42,6 @@ float new_Skill(void *instance) {
 
 // --- 4. THE UI MENU ---
 void DrawMenu() {
-    // Only draw if the menu is supposed to be visible
     ImGui::Begin("Mech Arena Mod By Imran");
     ImGui::Checkbox("Fast Movement", &speed_toggle);
     if (speed_toggle) {
@@ -64,20 +65,25 @@ void *hack_thread(void *) {
     DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, NULL);
     DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, NULL);
     
-    // START IMGUI (This is what was missing)
-    setupImGui(DrawMenu); 
-    
     return NULL;
 }
 
-// --- 6. ZYGISK MODULE CLASS ---
+// --- 6. ZYGISK MODULE CLASS (Complete Version) ---
 class MyModule : public zygisk::ModuleBase {
 public:
-    void onLoad(Api *api, JNIEnv *env) override { env_ = env; }
+    void onLoad(Api *api, JNIEnv *env) override {
+        env_ = env;
+    }
+
+    // Required for Android 12+ / Newer Zygisk
+    void preServerSpecialize(ServerSpecializeArgs *args) override {}
+    void postServerSpecialize(const ServerSpecializeArgs *args) override {}
+
     void preAppSpecialize(AppSpecializeArgs *args) override {
         if (!args || !args->nice_name) return;
         enable_hack = isGame(env_, args->app_data_dir);
     }
+
     void postAppSpecialize(const AppSpecializeArgs *) override {
         if (enable_hack) {
             pthread_t ntid;
