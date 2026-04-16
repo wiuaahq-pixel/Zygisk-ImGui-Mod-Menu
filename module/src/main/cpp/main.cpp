@@ -14,7 +14,6 @@ using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;
 
-static int enable_hack;
 bool speed_toggle = false;
 bool reload_toggle = false;
 bool skill_toggle = false;
@@ -52,19 +51,6 @@ void DrawMenu() {
     ImGui::End();
 }
 
-void *hack_thread(void *) {
-    uintptr_t base = 0;
-    do {
-        // This function is inside kittymemory
-        base = KittyMemory::get_module_base("libil2cpp.so");
-        if (!base) sleep(1);
-    } while (!base);
-
-    DobbyHook((void *)(base + OFF_SPEED), (void *)new_Speed, (void **)&old_Speed);
-    DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, NULL);
-    DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, NULL);
-    return NULL;
-}
 
 class MyModule : public zygisk::ModuleBase {
 public:
