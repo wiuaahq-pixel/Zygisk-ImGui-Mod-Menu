@@ -9,22 +9,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: set up JDK 11
+      - name: set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        env:
-          SKIP_JDK_VERSION_CHECK: true # This fixes the error in screenshot 2860
+
+      - name: Switch to JDK 11 for Compilation
+        run: |
+          sudo update-java-alternatives -s /usr/lib/jvm/temurin-11-jdk-amd64 || sudo update-java-alternatives -s /usr/lib/jvm/java-11-openjdk-amd64
+          java -version
 
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
           ./gradlew :module:assembleRelease
-          
+
       - name: Upload result
         uses: actions/upload-artifact@v4
         with:
