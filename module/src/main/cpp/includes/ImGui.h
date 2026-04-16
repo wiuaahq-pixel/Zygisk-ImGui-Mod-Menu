@@ -1,23 +1,29 @@
 //
 // Created by Reveny on 2022/12/25.
 //
+//
+// Created by Reveny on 2022/12/25.
+//
 
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
 #include <asm-generic/mman.h>
 #include <sys/mman.h>
 
-#include "ImGui/imgui.h"
-#include "Includes/Roboto-Regular.h"
-#include "ImGui/backends/imgui_impl_opengl3.h"
-#include "ImGui/backends/imgui_impl_android.h"
-#include "ImGui/backends/android_native_app_glue.h"
+// FIXED: Changed ImGui to imgui and Includes to includes
+#include "imgui/imgui.h"
+#include "includes/Roboto-Regular.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
+#include "imgui/backends/imgui_impl_android.h"
+#include "imgui/backends/android_native_app_glue.h"
 
 #include "Utils.h"
 #include "Dobby/dobby.h"
 
-#include "Includes/obfuscate.h"
-#include "Includes/Logger.h"
+#include "includes/obfuscate.h"
+#include "includes/Logger.h"
+
+
 
 void menuStyle();
 void (*menuAddress)();
