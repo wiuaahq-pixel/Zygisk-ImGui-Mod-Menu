@@ -2,8 +2,10 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <cstring>
-#include <Includes/Dobby/dobby.h>
-#include <Includes/ImGui/imgui.h>
+
+// Corrected Paths based on your file structure
+#include "Includes/Dobby/dobby.h"
+#include "ImGui/imgui.h"
 #include "modmenu.h"
 #include "zygisk.hpp"
 
@@ -11,19 +13,19 @@ using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;
 
-// --- 1. GLOBAL VARIABLES ---
+// --- GLOBAL VARIABLES ---
 static int enable_hack;
 bool speed_toggle = false;
 bool reload_toggle = false;
 bool skill_toggle = false;
 float speed_mult = 5.0f;
 
-// --- 2. MECH ARENA OFFSETS ---
+// --- MECH ARENA OFFSETS ---
 #define OFF_SPEED 0x4dc6914
 #define OFF_RELOAD 0x4ec4190
 #define OFF_SKILL 0x2d498a8
 
-// --- 3. HOOK LOGIC ---
+// --- HOOK LOGIC ---
 float (*old_Speed)(void *instance);
 float new_Speed(void *instance) {
     if (instance != NULL && speed_toggle) {
@@ -40,7 +42,7 @@ float new_Skill(void *instance) {
     return skill_toggle ? 0.0f : 10.0f;
 }
 
-// --- 4. THE UI MENU ---
+// --- UI MENU ---
 void DrawMenu() {
     ImGui::Begin("Mech Arena Mod By Imran");
     ImGui::Checkbox("Fast Movement", &speed_toggle);
@@ -53,11 +55,10 @@ void DrawMenu() {
     ImGui::End();
 }
 
-// --- 5. THE HACK THREAD ---
+// --- HACK THREAD ---
 void *hack_thread(void *) {
     uintptr_t base = 0;
     do {
-        // We use "get_module_base" instead of "get_base" to match the template
         base = get_module_base("libil2cpp.so");
         if (!base) sleep(1);
     } while (!base);
@@ -69,21 +70,16 @@ void *hack_thread(void *) {
     return NULL;
 }
 
-// --- 6. ZYGISK MODULE CLASS ---
+// --- ZYGISK CLASS ---
 class MyModule : public zygisk::ModuleBase {
 public:
-    void onLoad(Api *api, JNIEnv *env) override {
-        env_ = env;
-    }
-
+    void onLoad(Api *api, JNIEnv *env) override { env_ = env; }
     void preServerSpecialize(ServerSpecializeArgs *args) override {}
     void postServerSpecialize(const ServerSpecializeArgs *args) override {}
-
     void preAppSpecialize(AppSpecializeArgs *args) override {
         if (!args || !args->nice_name) return;
         enable_hack = isGame(env_, args->app_data_dir);
     }
-
     void postAppSpecialize(const AppSpecializeArgs *) override {
         if (enable_hack) {
             pthread_t ntid;
