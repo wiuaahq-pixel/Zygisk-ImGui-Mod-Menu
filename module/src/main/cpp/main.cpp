@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <cstring>
 
-// Corrected Paths based on your file structure
+// These paths match your folders: 'Includes' and 'ImGui'
 #include "Includes/Dobby/dobby.h"
 #include "ImGui/imgui.h"
 #include "modmenu.h"
@@ -59,6 +59,7 @@ void DrawMenu() {
 void *hack_thread(void *) {
     uintptr_t base = 0;
     do {
+        // This function is inside modmenu.h or kittyMemory
         base = get_module_base("libil2cpp.so");
         if (!base) sleep(1);
     } while (!base);
