@@ -26,11 +26,13 @@ android {
         ndkBuild {
             // This MUST point to your file exactly
             path file('src/main/cpp/Android.mk')
+            // Add -fPIC and -fvisibility=hidden
+            cppFlags "-std=c++17", "-fPIC", "-fvisibility=hidden" 
         }
     }
     
     // This NDK version is stable for your template
-    ndkVersion "27.2.12479018"
+    ndkVersion "27.0.11902837"
 }
 
 repositories {
