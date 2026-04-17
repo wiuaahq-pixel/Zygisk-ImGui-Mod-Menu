@@ -19,7 +19,7 @@ public:
     }
 
     void preAppSpecialize(AppSpecializeArgs *args) override {
-        api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+        //api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
 
         // Modified to be safer for different Zygisk versions
         if (args && args->app_data_dir) {
