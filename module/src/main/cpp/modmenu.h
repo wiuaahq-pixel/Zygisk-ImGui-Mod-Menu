@@ -94,16 +94,11 @@ static void *hack_thread(void *) {
 
     unsigned long base = 0;
     while (base == 0) {
-        // Using a more universal call
-        base = KittyMemory::get_base_address(targetLibName); 
-        if (base == 0) {
-            // Fallback if the first one fails
-            base = KittyMemory::get_module_base(targetLibName);
-        }
+        // Use the function the compiler actually found in Utils.h
+        base = getBaseAddress(targetLibName); 
         if (base == 0) sleep(1);
     }
 
-    // Apply Hooks
     DobbyHook((void *)(base + OFF_SPEED), (void *)new_Speed, (void **)&old_Speed);
     DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, nullptr);
     DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, nullptr);
