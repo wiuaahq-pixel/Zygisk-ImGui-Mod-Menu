@@ -19,16 +19,12 @@ public:
     }
 
     void preAppSpecialize(AppSpecializeArgs *args) override {
-        //api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
-
-        // Modified to be safer for different Zygisk versions
-        if (args && args->app_data_dir) {
-            // We pass nullptr for the Env because isGame doesn't strictly need it to check strings
-            if (isGame(nullptr, args->app_data_dir)) {
-                enable_hack = 1;
-            }
-        }
+    // Just set the option and enable. 
+    // DON'T do package checks here on Android 15.
+    api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+    enable_hack = 1; 
     }
+
 
     void postAppSpecialize(const AppSpecializeArgs *args) override {
         if (enable_hack) {
