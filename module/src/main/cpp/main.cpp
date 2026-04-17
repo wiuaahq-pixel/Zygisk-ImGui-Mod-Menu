@@ -27,7 +27,7 @@ public:
 
         // USE THE ISGAME FUNCTION FROM YOUR MODMENU.H
         // This is more reliable than checking nice_name on Android 15
-        if (isGame(api->getJniEnv(), args->app_data_dir)) {
+        if (isGame(api->getJNIEnv(), args->app_data_dir)) {
             enable_hack = 1;
         }
     }
