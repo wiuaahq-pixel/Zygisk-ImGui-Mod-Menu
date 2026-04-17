@@ -97,8 +97,9 @@ static void *hack_thread(void *) {
     // 2. Wait for game library to load
     unsigned long base = 0;
     do {
-        base = KittyMemory::getModuleBaseAddr(targetLibName);
-        sleep(1);
+        // Using the address getter that matches your KittyMemory version
+        base = KittyMemory::get_module_base(targetLibName); 
+        if (base == 0) sleep(1);
     } while (base == 0);
 
     // 3. Apply Hooks using Dobby
