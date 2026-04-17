@@ -4,20 +4,12 @@
 #include <cstring>
 #include <string>
 
-#include "includes/Dobby/dobby.h"
-#include "imgui/imgui.h"
-#include "kittymemory/KittyMemory.h"
 #include "modmenu.h"
 #include "zygisk.hpp"
 
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;
-
-// These are already defined in your modmenu.h or other files, 
-// so we just declare them here so main.cpp knows they exist.
-extern void drawMenu();
-extern void *hack_thread(void *);
 
 class MyModule : public zygisk::ModuleBase {
 public:
@@ -30,11 +22,12 @@ public:
     void postServerSpecialize(const ServerSpecializeArgs *args) override {}
 
     void preAppSpecialize(AppSpecializeArgs *args) override {
-        // ANDROID 15 BOOTLOOP FIX
+        // ANDROID 15 BOOTLOOP FIX: Required for HyperOS stability
         api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
 
-        const char *process = api->getArgString(args->nice_name);
-        if (process && std::string(process) == "com.plarium.mechlegion") {
+        // USE THE ISGAME FUNCTION FROM YOUR MODMENU.H
+        // This is more reliable than checking nice_name on Android 15
+        if (isGame(api->getJniEnv(), args->app_data_dir)) {
             enable_hack = 1;
         }
     }
