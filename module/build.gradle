@@ -34,6 +34,14 @@ android {
     // This NDK version is stable for your template
     ndkVersion "27.0.11902837"
 }
+buildTypes {
+    release {
+        minifyEnabled false
+        signingConfig signingConfigs.debug
+        // ADD THIS LINE
+        ndk { debugSymbolLevel 'NONE' } 
+    }
+}
 
 repositories {
     mavenLocal()
