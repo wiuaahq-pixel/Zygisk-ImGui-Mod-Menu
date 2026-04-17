@@ -4,9 +4,9 @@
 //  Created by MJ (Ruit) on 1/1/19.
 //
 
-#include <Includes/obfuscate.h>
+#include <../includes/obfuscate.h>
 #include "MemoryPatch.h"
-#include "Includes/Logger.h"
+#include "../includes/Logger.h"
 
 MemoryPatch::MemoryPatch() {
     _address = 0;
