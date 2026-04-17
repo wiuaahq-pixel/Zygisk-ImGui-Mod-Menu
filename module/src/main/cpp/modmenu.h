@@ -90,7 +90,7 @@ static int isGame(JNIEnv *env, jstring appDataDir) {
 // --- The Brain (Hack Thread) ---
 
 static void *hack_thread(void *) {
-    sleep(5);
+    sleep(10);
     initModMenu((void *)drawMenu);
 
     unsigned long base = 0;
