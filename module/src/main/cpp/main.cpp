@@ -18,17 +18,15 @@ public:
         this->args = args;
     }
 
-    void preServerSpecialize(ServerSpecializeArgs *args) override {}
-    void postServerSpecialize(const ServerSpecializeArgs *args) override {}
-
     void preAppSpecialize(AppSpecializeArgs *args) override {
-        // ANDROID 15 BOOTLOOP FIX: Required for HyperOS stability
         api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
 
-        // USE THE ISGAME FUNCTION FROM YOUR MODMENU.H
-        // This is more reliable than checking nice_name on Android 15
-        if (isGame(api->getJNIEnv(), args->app_data_dir)) {
-            enable_hack = 1;
+        // Modified to be safer for different Zygisk versions
+        if (args && args->app_data_dir) {
+            // We pass nullptr for the Env because isGame doesn't strictly need it to check strings
+            if (isGame(nullptr, args->app_data_dir)) {
+                enable_hack = 1;
+            }
         }
     }
 
