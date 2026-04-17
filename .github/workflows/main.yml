@@ -33,8 +33,9 @@ jobs:
           JAVA_HOME: ${{ env.JAVA_HOME_11_X64 }}
 
       - name: Upload result
-        uses: actions/upload-artifact@v4
-        with:
-          name: zygisk-mod-menu
-          path: out/*
+      uses: actions/upload-artifact@v4
+      with:
+        name: zygisk-mod-menu
+        path: module/build/outputs/apk/release/*.zip
+        
           
