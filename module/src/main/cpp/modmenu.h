@@ -90,19 +90,20 @@ static int isGame(JNIEnv *env, jstring appDataDir) {
 // --- The Brain (Hack Thread) ---
 
 static void *hack_thread(void *) {
-    // 1. Initialize UI (The bridge to drawMenu)
-    // Note: Ensure your initModMenu matches this call in your modmenu.h or .cpp
     initModMenu((void *)drawMenu);
 
-    // 2. Wait for game library to load
     unsigned long base = 0;
-    do {
-        // Using the address getter that matches your KittyMemory version
-        base = KittyMemory::get_module_base(targetLibName); 
+    while (base == 0) {
+        // Using a more universal call
+        base = KittyMemory::get_base_address(targetLibName); 
+        if (base == 0) {
+            // Fallback if the first one fails
+            base = KittyMemory::get_module_base(targetLibName);
+        }
         if (base == 0) sleep(1);
-    } while (base == 0);
+    }
 
-    // 3. Apply Hooks using Dobby
+    // Apply Hooks
     DobbyHook((void *)(base + OFF_SPEED), (void *)new_Speed, (void **)&old_Speed);
     DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, nullptr);
     DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, nullptr);
