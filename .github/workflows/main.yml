@@ -18,6 +18,13 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Setup NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r27d
+          link-to-sdk: true
+          
+
       - name: Setup Java 11 (For Gradle)
         uses: actions/setup-java@v4
         with:
