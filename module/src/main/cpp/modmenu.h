@@ -88,18 +88,19 @@ static int isGame(JNIEnv *env, jstring appDataDir) {
 }
 
 // --- The Brain (Hack Thread) ---
-
 static void *hack_thread(void *) {
-    sleep(10);
+    // SLEEP IS MANDATORY ON ANDROID 15 to prevent suspension
+    sleep(10); 
+
+    // Initialize the menu
     initModMenu((void *)drawMenu);
 
     unsigned long base = 0;
     while (base == 0) {
-        // Use the function the compiler actually found in Utils.h
+        // Use the function the compiler found in your Utils.h earlier
         base = getBaseAddress(targetLibName); 
         if (base == 0) sleep(1);
     }
-
     DobbyHook((void *)(base + OFF_SPEED), (void *)new_Speed, (void **)&old_Speed);
     DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, nullptr);
     DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, nullptr);
