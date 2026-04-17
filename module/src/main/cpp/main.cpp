@@ -19,11 +19,13 @@ public:
     }
 
     void preAppSpecialize(AppSpecializeArgs *args) override {
-    // Just set the option and enable. 
-    // DON'T do package checks here on Android 15.
-    api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
-    enable_hack = 1; 
-    }
+        // Force the option to prevent bootloops on Android 15
+        api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+        
+        // Don't check package here; just enable and let hack_thread decide
+        enable_hack = 1; 
+        }
+
 
 
     void postAppSpecialize(const AppSpecializeArgs *args) override {
