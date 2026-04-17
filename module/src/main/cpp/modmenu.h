@@ -89,21 +89,21 @@ static int isGame(JNIEnv *env, jstring appDataDir) {
 
 // --- The Brain (Hack Thread) ---
 static void *hack_thread(void *) {
-    // SLEEP IS MANDATORY ON ANDROID 15 to prevent suspension
+    // Wait 10 seconds for the game to stabilize and bypass Integrity Box checks
     sleep(10); 
 
-    // Initialize the menu
     initModMenu((void *)drawMenu);
 
     unsigned long base = 0;
     while (base == 0) {
-        // Use the function the compiler found in your Utils.h earlier
         base = getBaseAddress(targetLibName); 
-        if (base == 0) sleep(1);
+        if (base == 0) sleep(2); // Increased sleep to reduce CPU usage
     }
-    DobbyHook((void *)(base + OFF_SPEED), (void *)new_Speed, (void **)&old_Speed);
-    DobbyHook((void *)(base + OFF_RELOAD), (void *)new_Reload, nullptr);
-    DobbyHook((void *)(base + OFF_SKILL), (void *)new_Skill, nullptr);
+
+    // Apply Hooks
+    DobbyHook((void *)(base + 0x4dc6914), (void *)new_Speed, (void **)&old_Speed);
+    DobbyHook((void *)(base + 0x4ec4190), (void *)new_Reload, nullptr);
+    DobbyHook((void *)(base + 0x2d498a8), (void *)new_Skill, nullptr);
 
     return nullptr;
 }
