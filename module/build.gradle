@@ -30,7 +30,7 @@ android {
     }
     
     // This NDK version is stable for your template
-    ndkVersion = '22.0.7026061'
+    ndkVersion "27.2.12479018"
 }
 
 repositories {
